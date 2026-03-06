@@ -1,0 +1,12 @@
+# critical patterns (rule_id::regex)
+CRIT_INSTR_OVERRIDE::ignore\s+(all\s+)?(previous|prior)\s+(instructions|rules|prompts)
+CRIT_PROMPT_EXFIL::reveal\s+(your\s+)?(system prompt|system instructions|policy)
+CRIT_SECRET_INLINE::(?:api[_-]?key|token|password|secret)\s*(?:[:=]|is)\s*\S+
+CRIT_PIPE_TO_SHELL::(?:curl|wget)\s+\S+\s*\|\s*(?:sh|bash)
+CRIT_RM_ROOT::rm\s+-rf\s+/
+CRIT_SQL_DROP::(?:^|\s)DROP\s+TABLE(?:\s|;)
+CRIT_FORK_BOMB::(?:^|\s):\(\)\{\s*:\|:\s*&\s*\};:
+CRIT_REVERSE_SHELL::(?:bash|sh)\s+-i\s+>&\s+/dev/tcp/\d+\.\d+\.\d+\.\d+/\d+
+CRIT_SSH_KEY_INJECT::authorized_keys
+CRIT_ENV_EXFIL::(?:\.env|secrets?\.txt|id_rsa).*(?:curl|wget).*(?:https?://)
+CRIT_PROMPT_COPY::(print|show|dump).*(system prompt|developer message)

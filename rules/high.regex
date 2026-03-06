@@ -1,0 +1,14 @@
+# high patterns (rule_id::regex)
+HIGH_GUARDRAIL_BYPASS::(disregard|bypass)\s+(system|developer|safety|guardrails?)
+HIGH_SYSTEM_OVERRIDE::(system|developer)\s+override
+HIGH_DAN_MODE::you\s+are\s+now\s+(?:in\s+)?dan\s+mode
+HIGH_EXEC_CMD::execute\s+(this|the following)\s+command
+HIGH_RUN_IN_SHELL::run\s+this\s+in\s+(shell|terminal)
+HIGH_MEMORY_POISON::write\s+to\s+(SOUL\.md|AGENTS\.md|MEMORY\.md)
+HIGH_SEMANTIC_WORM::spread\s+this\s+prompt\s+to\s+(all\s+)?(agents|subagents)
+HIGH_GATEWAY_CONTROL::(?:openclaw\s+gateway\s+)?(?:stop|restart)\b
+HIGH_AUTO_APPROVE::(always allow|auto-approve|skip approval)
+HIGH_HOOK_HIJACK::(PreToolUse|PostToolUse|hook).*override
+HIGH_TOOL_ABUSE::(read_url_content|mcp tool).*(without approval|no approval)
+HIGH_BROWSER_EXFIL::(navigate|open).*(webhook\.site|pastebin|ngrok)
+HIGH_POLICY_BYPASS::(ignore safety|disable guardrail|turn off security)
