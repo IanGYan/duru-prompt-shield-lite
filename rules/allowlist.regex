@@ -1,0 +1,4 @@
+# allowlist patterns (rule_id::regex) - reduce one severity level if matched
+ALLOW_EXPLAIN_INJECTION::what\s+is\s+prompt\s+injection
+ALLOW_SECURITY_AUDIT::security\s+audit\s+example
+ALLOW_TEACHING_CONTEXT::explain\s+why\s+"?ignore previous instructions"?\s+is\s+dangerous

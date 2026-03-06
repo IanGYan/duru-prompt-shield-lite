@@ -1,0 +1,14 @@
+# medium patterns (rule_id::regex)
+MED_ROLEPLAY::pretend\s+you\s+are
+MED_RESEARCH_PRETEXT::for\s+research\s+purposes
+MED_URGENCY::urgent(?:ly)?\s+do\s+this\s+now
+MED_SECRECY::do\s+not\s+tell\s+(the\s+)?user
+MED_KEYWORD_SECRET::(?:api[_-]?key|token|password|secret)\s*[:=]
+MED_LOCAL_PATH::(?:/Users/|/home/|~/.ssh|/etc/)
+MED_IPV4::([0-9]{1,3}\.){3}[0-9]{1,3}
+MED_CHMOD_777::chmod\s+777
+MED_CHOWN_RECURSIVE::chown\s+-R
+MED_AUTHORITY_PRESSURE::(as your owner|as admin|i authorize you)
+MED_CONTEXT_HIJACK::(from previous chat|as we agreed earlier)
+MED_PAYMENT_URGENCY::(transfer money|wire funds|send payment)\b
+MED_CREDS_REQUEST::(show|send).*(credentials|tokens?|passwords?)
