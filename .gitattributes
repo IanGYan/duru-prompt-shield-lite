@@ -1,0 +1,23 @@
+# Normalize text files to LF in repository
+* text=auto eol=lf
+
+# Explicit text types
+*.md text
+*.py text
+*.sh text
+*.toml text
+*.json text
+*.yml text
+*.yaml text
+*.txt text
+*.gitignore text
+*.gitattributes text
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.skill binary
