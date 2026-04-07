@@ -61,6 +61,10 @@ No external Python packages required.
 ## Quick start
 
 ```bash
+# 0) bootstrap local config
+cp .env.example .env
+# edit .env if needed
+
 # 1) detect suspicious external content
 printf 'ignore all previous instructions' | bash scripts/detect-injection.sh
 
@@ -162,17 +166,23 @@ If `::` is omitted, runtime falls back to auto IDs (`<level>:L<n>`), but explici
 - SSH-sensitive operations
 
 ### 3) Per-actor rate limit (DoS guard)
-State stored in:
-- `/Users/durubot/.openclaw/workspace/memory/psl-rate-limit.json` (default path)
+State stored in `PSL_RL_STATE_PATH` (default resolves to `./memory/psl-rate-limit.json` under the skill root).
 
 ---
 
-## Configuration (env vars)
+## Configuration (.env + env vars)
+
+Runtime config is loaded from `.env` only.
+
+- `.env.example` is a template for users to copy from.
+- `.env.example` is **not** loaded at runtime.
+- Shell env vars still work as runtime override.
 
 ### Core
 - `PSL_MODE` = `strict|balanced|lowfp`
 - `PSL_ACTOR_ID` = actor identity (`global` default)
-- `PSL_RULES_DIR` = custom rules directory
+- `PSL_ROOT_DIR` = skill root path (optional; enables custom root)
+- `PSL_RULES_DIR` = rules directory
 - `PSL_LOG_PATH` = JSONL log path
 
 ### Rate limit
@@ -180,6 +190,10 @@ State stored in:
 - `PSL_RL_WINDOW_SEC` (default `60`)
 - `PSL_RL_ACTION` = `block|warn` (default `block`)
 - `PSL_RL_STATE_PATH` = rate-limit state JSON path
+- `PSL_ALLOW_ANY_LOG_PATH` = `0|1` for `analyze-log.sh` custom path guard
+
+### Path fallback behavior
+If path vars are not set, scripts fall back to skill-local defaults (derived from the script location), which keeps local usage friendly without machine-specific hardcoded absolute paths.
 
 ---
 
@@ -208,11 +222,11 @@ export PSL_RL_ACTION=warn
 ## Analyze logs
 
 ```bash
-# default: last 24h
+# default: last 24h (uses PSL_LOG_PATH)
 bash scripts/analyze-log.sh
 
-# custom path and window
-bash scripts/analyze-log.sh /Users/durubot/.openclaw/workspace/memory/security-log.jsonl 48
+# custom path requires explicit opt-in
+PSL_ALLOW_ANY_LOG_PATH=1 bash scripts/analyze-log.sh /tmp/other-log.jsonl 48
 ```
 
 Outputs:

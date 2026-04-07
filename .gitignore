@@ -1,0 +1,47 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+*.whl
+
+# Local runtime artifacts
+logs/
+*.log
+tmp/
+.temp/
+.cache/
+memory/
+
+# Local secrets / overrides
+.env
+
+# Skill package archives
+*.skill
+
+# Local .qodo/
+.qodo/

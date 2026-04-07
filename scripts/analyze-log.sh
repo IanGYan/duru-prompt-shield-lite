@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LOG_PATH="${1:-/Users/durubot/.openclaw/workspace/memory/security-log.jsonl}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck disable=SC1091
+source "$SCRIPT_DIR/load-config.sh"
+
+DEFAULT_LOG="$PSL_LOG_PATH"
+LOG_PATH="${1:-$DEFAULT_LOG}"
 HOURS="${2:-24}"
+
+if [[ "$PSL_ALLOW_ANY_LOG_PATH" != "1" && "$LOG_PATH" != "$DEFAULT_LOG" ]]; then
+  echo "[analyze-log] blocked: custom log path disabled by default."
+  echo "[analyze-log] use default path or set PSL_ALLOW_ANY_LOG_PATH=1 explicitly."
+  exit 2
+fi
 
 if [[ ! -f "$LOG_PATH" ]]; then
   echo "[analyze-log] log file not found: $LOG_PATH"
@@ -43,7 +54,6 @@ if not rows:
 
 actions=Counter(r.get('action','unknown') for r in rows)
 severities=Counter(r.get('severity','unknown') for r in rows)
-modes=Counter(r.get('mode','unknown') for r in rows)
 rule_hits=Counter()
 reason_hits=Counter()
 by_mode=defaultdict(Counter)
@@ -83,21 +93,4 @@ for reason,cnt in reason_hits.most_common(10):
 print("\nBy mode (allow/warn/block):")
 for mode,c in sorted(by_mode.items()):
     print(f"- {mode}: allow={c['allow']} warn={c['warn']} block={c['block']}")
-
-# heuristic false-positive candidates:
-# medium-only or decoded-only warns that frequently appear
-fp_candidates=[]
-for rule,cnt in rule_hits.items():
-    if cnt>=3 and rule.startswith('MED_'):
-        fp_candidates.append((rule,cnt,'frequent medium rule'))
-for reason,cnt in reason_hits.items():
-    if cnt>=3 and reason in ('decoded_url','decoded_html','decoded_unicode'):
-        fp_candidates.append((reason,cnt,'frequent decode reason'))
-
-print("\nPotential false-positive candidates (heuristic):")
-if fp_candidates:
-    for name,cnt,note in sorted(fp_candidates,key=lambda x:x[1],reverse=True)[:10]:
-        print(f"- {name}: {cnt} ({note})")
-else:
-    print("- none")
 PY
